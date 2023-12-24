@@ -22,8 +22,10 @@ def make_layers(block, no_relu_layers):
     return nn.Sequential(OrderedDict(layers))
 
 class bodypose_model(nn.Module):
+    # Because this model uses two-branch multi-stage CNN there are two separate similar branches 
     def __init__(self):
         super(bodypose_model, self).__init__()
+        self.no_of_outputs = 18
 
         # these layers have no relu layer
         no_relu_layers = ['conv5_5_CPM_L1', 'conv5_5_CPM_L2', 'Mconv7_stage2_L1',\
@@ -31,6 +33,8 @@ class bodypose_model(nn.Module):
                           'Mconv7_stage4_L1', 'Mconv7_stage4_L2', 'Mconv7_stage5_L1',\
                           'Mconv7_stage5_L2', 'Mconv7_stage6_L1', 'Mconv7_stage6_L1']
         blocks = {}
+
+        # First stage same for both branches. Return is size 128 
         block0 = OrderedDict([
                       ('conv1_1', [3, 64, 3, 1, 1]),
                       ('conv1_2', [64, 64, 3, 1, 1]),
@@ -56,7 +60,7 @@ class bodypose_model(nn.Module):
                         ('conv5_2_CPM_L1', [128, 128, 3, 1, 1]),
                         ('conv5_3_CPM_L1', [128, 128, 3, 1, 1]),
                         ('conv5_4_CPM_L1', [128, 512, 1, 1, 0]),
-                        ('conv5_5_CPM_L1', [512, 38, 1, 1, 0])
+                        ('conv5_5_CPM_L1', [512, 2*(self.no_of_outputs+1), 1, 1, 0])
                     ])
 
         block1_2 = OrderedDict([
@@ -64,7 +68,7 @@ class bodypose_model(nn.Module):
                         ('conv5_2_CPM_L2', [128, 128, 3, 1, 1]),
                         ('conv5_3_CPM_L2', [128, 128, 3, 1, 1]),
                         ('conv5_4_CPM_L2', [128, 512, 1, 1, 0]),
-                        ('conv5_5_CPM_L2', [512, 19, 1, 1, 0])
+                        ('conv5_5_CPM_L2', [512, self.no_of_outputs+1, 1, 1, 0])
                     ])
         blocks['block1_1'] = block1_1
         blocks['block1_2'] = block1_2
@@ -74,23 +78,23 @@ class bodypose_model(nn.Module):
         # Stages 2 - 6
         for i in range(2, 7):
             blocks['block%d_1' % i] = OrderedDict([
-                    ('Mconv1_stage%d_L1' % i, [185, 128, 7, 1, 3]),
+                    ('Mconv1_stage%d_L1' % i, [128+3*(self.no_of_outputs+1), 128, 7, 1, 3]),
                     ('Mconv2_stage%d_L1' % i, [128, 128, 7, 1, 3]),
                     ('Mconv3_stage%d_L1' % i, [128, 128, 7, 1, 3]),
                     ('Mconv4_stage%d_L1' % i, [128, 128, 7, 1, 3]),
                     ('Mconv5_stage%d_L1' % i, [128, 128, 7, 1, 3]),
                     ('Mconv6_stage%d_L1' % i, [128, 128, 1, 1, 0]),
-                    ('Mconv7_stage%d_L1' % i, [128, 38, 1, 1, 0])
+                    ('Mconv7_stage%d_L1' % i, [128, 2*(self.no_of_outputs+1), 1, 1, 0])
                 ])
 
             blocks['block%d_2' % i] = OrderedDict([
-                    ('Mconv1_stage%d_L2' % i, [185, 128, 7, 1, 3]),
+                    ('Mconv1_stage%d_L2' % i, [128+3*(self.no_of_outputs+1), 128, 7, 1, 3]),
                     ('Mconv2_stage%d_L2' % i, [128, 128, 7, 1, 3]),
                     ('Mconv3_stage%d_L2' % i, [128, 128, 7, 1, 3]),
                     ('Mconv4_stage%d_L2' % i, [128, 128, 7, 1, 3]),
                     ('Mconv5_stage%d_L2' % i, [128, 128, 7, 1, 3]),
                     ('Mconv6_stage%d_L2' % i, [128, 128, 1, 1, 0]),
-                    ('Mconv7_stage%d_L2' % i, [128, 19, 1, 1, 0])
+                    ('Mconv7_stage%d_L2' % i, [128, self.no_of_outputs+1, 1, 1, 0])
                 ])
 
         for k in blocks.keys():
@@ -112,9 +116,10 @@ class bodypose_model(nn.Module):
 
 
     def forward(self, x):
-
+        # First stage the same for both branches
         out1 = self.model0(x)
 
+        # Different results concatenated in the end of every stage at axis 1 creating vector of all results
         out1_1 = self.model1_1(out1)
         out1_2 = self.model1_2(out1)
         out2 = torch.cat([out1_1, out1_2, out1], 1)
