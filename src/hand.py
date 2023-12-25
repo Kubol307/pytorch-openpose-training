@@ -9,12 +9,12 @@ import matplotlib
 import torch
 from skimage.measure import label
 
-from src.model import handpose_model
+from src.model import HandposeModel
 from src import util
 
 class Hand(object):
     def __init__(self, model_path):
-        self.model = handpose_model()
+        self.model = HandposeModel()
         if torch.cuda.is_available():
             self.model = self.model.cuda()
         model_dict = util.transfer(self.model, torch.load(model_path))

@@ -9,11 +9,11 @@ import torch
 from torchvision import transforms
 
 from src import util
-from src.model import bodypose_model
+from src.model import BodyposeModel
 
 class Body(object):
     def __init__(self, model_path):
-        self.model = bodypose_model()
+        self.model = BodyposeModel()
         if torch.cuda.is_available():
             self.model = self.model.cuda()
         model_dict = util.transfer(self.model, torch.load(model_path))

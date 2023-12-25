@@ -21,10 +21,10 @@ def make_layers(block, no_relu_layers):
 
     return nn.Sequential(OrderedDict(layers))
 
-class bodypose_model(nn.Module):
+class BodyposeModel(nn.Module):
     # Because this model uses two-branch multi-stage CNN there are two separate similar branches 
     def __init__(self):
-        super(bodypose_model, self).__init__()
+        super(BodyposeModel, self).__init__()
         self.no_of_outputs = 18
 
         # these layers have no relu layer
@@ -34,7 +34,7 @@ class bodypose_model(nn.Module):
                           'Mconv7_stage5_L2', 'Mconv7_stage6_L1', 'Mconv7_stage6_L1']
         blocks = {}
 
-        # First stage same for both branches. Return is size 128 
+        # First stage the same for both branches. Returned layer has size 128 
         block0 = OrderedDict([
                       ('conv1_1', [3, 64, 3, 1, 1]),
                       ('conv1_2', [64, 64, 3, 1, 1]),
@@ -145,9 +145,9 @@ class bodypose_model(nn.Module):
 
         return out6_1, out6_2
 
-class handpose_model(nn.Module):
+class HandposeModel(nn.Module):
     def __init__(self):
-        super(handpose_model, self).__init__()
+        super(HandposeModel, self).__init__()
 
         # these layers have no relu layer
         no_relu_layers = ['conv6_2_CPM', 'Mconv7_stage2', 'Mconv7_stage3',\
