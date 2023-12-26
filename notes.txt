@@ -1,2 +1,11 @@
 First 10 layers of body model are the same as in VGG-19. This part is responsible for feature extraction.
 VGG-19 are not the only choice for feature extractor. Mobilenet and Resnet also are used in some implementations.
+Source: https://medium.com/analytics-vidhya/understanding-openpose-with-code-reference-part-1-b515ba0bbc73
+
+Steps for fine tuning neural network:
+- Backbone is first 10 layers of neural network
+- Load all weights
+- Delete remaining layers
+- Create new model with layers that come after Backbone
+- Pass output of backbone to input of new model
+- Train weights of new neural network
