@@ -25,6 +25,8 @@ class BodyposeModel(nn.Module):
     # Because this model uses two-branch multi-stage CNN there are two separate similar branches 
     def __init__(self):
         super(BodyposeModel, self).__init__()
+
+        # number of body parts +1 for background
         self.no_of_outputs = 18
 
         # these layers have no relu layer
@@ -34,7 +36,8 @@ class BodyposeModel(nn.Module):
                           'Mconv7_stage5_L2', 'Mconv7_stage6_L1', 'Mconv7_stage6_L1']
         blocks = {}
 
-        # First stage the same for both branches. Returned layer has size 128 
+        # First stage the same for both branches. Returned layer has size 128
+        # First 10 layers are the same as in VGG-19 network
         block0 = OrderedDict([
                       ('conv1_1', [3, 64, 3, 1, 1]),
                       ('conv1_2', [64, 64, 3, 1, 1]),
