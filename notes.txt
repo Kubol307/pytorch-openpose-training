@@ -1,0 +1,2 @@
+First 10 layers of body model are the same as in VGG-19. This part is responsible for feature extraction.
+VGG-19 are not the only choice for feature extractor. Mobilenet and Resnet also are used in some implementations.
