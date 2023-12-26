@@ -9,3 +9,5 @@ Steps for fine tuning neural network:
 - Create new model with layers that come after Backbone
 - Pass output of backbone to input of new model
 - Train weights of new neural network
+
+Depending on which part of body is added, limbSeq, mapIdx and colors in util.py and train_body.ipynb needs to be changed according to chosed keypoints
