@@ -11,3 +11,5 @@ Steps for fine tuning neural network:
 - Train weights of new neural network
 
 Depending on which part of body is added, limbSeq, mapIdx and colors in util.py and train_body.ipynb needs to be changed according to chosed keypoints
+
+In COCO-pose dataset keypoints are in different order that in standard openpose. For this reason it needs to be reordered
