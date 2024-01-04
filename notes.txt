@@ -14,4 +14,4 @@ Depending on which part of body is added, limbSeq, mapIdx and colors in util.py 
 
 In COCO-pose dataset keypoints are in different order that in standard openpose. For this reason it needs to be reordered
 
-Keypoints order: https://cocodataset.org/#keypoints-eval
+How keypoints are organized: https://cocodataset.org/#keypoints-eval
