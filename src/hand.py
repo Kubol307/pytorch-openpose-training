@@ -9,8 +9,8 @@ import matplotlib
 import torch
 from skimage.measure import label
 
-from src.model import HandposeModel
-from src import util
+from pytorch_openpose_training.src.model import HandposeModel
+import pytorch_openpose_training.src.util
 
 class Hand(object):
     def __init__(self, model_path):
