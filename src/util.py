@@ -8,6 +8,9 @@ import numpy as np
 import matplotlib.pyplot as plt
 import cv2
 
+def chunk_data(array, chunk_size):
+    array = np.array_split(array, len(array)/chunk_size)
+    return np.array(array)
 
 def padRightDownCorner(img, stride, padValue):
     h = img.shape[0]
