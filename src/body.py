@@ -7,9 +7,8 @@ import matplotlib.pyplot as plt
 import matplotlib
 import torch
 from torchvision import transforms
-
-import pytorch_openpose_training.src.util
-from pytorch_openpose_training.src.model import BodyposeModel
+import util
+from model import BodyposeModel
 
 class Body(object):
     def __init__(self, model_path):
