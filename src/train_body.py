@@ -7,8 +7,10 @@ import matplotlib.pyplot as plt
 import matplotlib
 import torch
 from torchvision import transforms
-import util
-from train_model import MainModel, BodyposeBackbone
+
+import pytorch_openpose_training.src.util
+import import_ipynb
+from pytorch_openpose_training.src.train_model import MainModel, BodyposeBackbone
 
 class BackboneBody(object):
     def __init__(self, model_path: str, backbone_path: str, no_of_outputs: int):
