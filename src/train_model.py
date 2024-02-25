@@ -8,10 +8,8 @@ import matplotlib
 import torch
 from torchvision import transforms
 import torch.nn as nn
-
 import util
 from model import BodyposeModel
-
 from torchsummary import summary
 from collections import OrderedDict
 
@@ -149,23 +147,23 @@ class MainModel(nn.Module):
         # Different results concatenated in the end of every stage at axis 1 creating vector of all results
         out1_1 = self.model1_1(out1)
         out1_2 = self.model1_2(out1)
-        out2 = torch.cat([out1_1, out1_2, out1], 1)
+        out2 = torch.cat([out1_1, out1_2, out1], 0)
 
         out2_1 = self.model2_1(out2)
         out2_2 = self.model2_2(out2)
-        out3 = torch.cat([out2_1, out2_2, out1], 1)
+        out3 = torch.cat([out2_1, out2_2, out1], 0)
 
         out3_1 = self.model3_1(out3)
         out3_2 = self.model3_2(out3)
-        out4 = torch.cat([out3_1, out3_2, out1], 1)
+        out4 = torch.cat([out3_1, out3_2, out1], 0)
 
         out4_1 = self.model4_1(out4)
         out4_2 = self.model4_2(out4)
-        out5 = torch.cat([out4_1, out4_2, out1], 1)
+        out5 = torch.cat([out4_1, out4_2, out1], 0)
 
         out5_1 = self.model5_1(out5)
         out5_2 = self.model5_2(out5)
-        out6 = torch.cat([out5_1, out5_2, out1], 1)
+        out6 = torch.cat([out5_1, out5_2, out1], 0)
 
         out6_1 = self.model6_1(out6)
         out6_2 = self.model6_2(out6)
