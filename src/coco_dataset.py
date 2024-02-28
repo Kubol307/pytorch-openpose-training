@@ -42,7 +42,7 @@ class COCODataset(VisionDataset):
         valid_ids = []
         for id in self.coco.getAnnIds():
             ann = self.coco.anns[id]
-            if 1 in ann['keypoints'] or 2 in ann['keypoints']: # select only images where keypoints are present
+            if ann['num_keypoints'] == 1: # select only images where keypoints are present
                 valid_ids.append(ann['image_id'])
         self.ids = valid_ids
 
@@ -80,6 +80,9 @@ class COCODataset(VisionDataset):
     def __len__(self):
         return len(self.ids)
         
+
+if __name__ == '__main__':
+    data = COCODataset('/media/jakub/One Touch/coco_pose/coco2017labels-pose/coco-pose')
 
 
 
