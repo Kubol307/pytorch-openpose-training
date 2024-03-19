@@ -1,4 +1,4 @@
-# This repo is based on: git@github.com:Hzzone/pytorch-openpose.git with changes for training the model and adding more keypoints
+## This repo is based on: `git@github.com:Hzzone/pytorch-openpose.git` with changes for training the model and adding more keypoints
 
 ## References:
 * Openpose architecture explained: https://medium.com/analytics-vidhya/understanding-openpose-with-code-reference-part-1-b515ba0bbc73
